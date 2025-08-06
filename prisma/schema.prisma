@@ -1,0 +1,95 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}enum AccountStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum AccountType {
+  SAVING
+  CHECKING
+  DEPOSIT
+}
+
+enum RoleUser {
+  CUSTOMER
+  ADMIN
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+enum TransactionType {
+  DEPOSIT
+  WITHDRAW
+  TRANSFER
+}
+enum CodeTypeTransaction {
+  TR
+  DP
+  WH
+}
+model `account` (
+  `id` int(10) NOT NULL,
+  `user_id` int(10) NOT NULL,
+  `account_number` int(4) NOT NULL,
+  `account_type` varchar(100) NOT NULL,
+  `account_name` varchar(150) NOT NULL,
+  `balance` int(255) NOT NULL,
+  `currency` varchar(50) NOT NULL,
+  `status` varchar(50) NOT NULL,
+  `branch_code` varchar(50) NOT NULL,
+  `create_at` varchar(50) NOT NULL,
+  `update_at` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transaction`
+--
+
+model`transaction` (
+  `id` int(50) NOT NULL,
+  `account_id` int(100) NOT NULL,
+  `destination_account_id` int(150) NOT NULL,
+  `transaction_type` varchar(250) NOT NULL,
+  `status` char(150) NOT NULL,
+  `amount` decimal(65,0) NOT NULL,
+  `code_transaction_ref` varchar(200) NOT NULL,
+  `number_transaction_ref` varchar(200) NOT NULL,
+  `description` varchar(250) NOT NULL,
+  `create_at` varchar(50) NOT NULL,
+  `update_at` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+model `users` (
+  `id` int(10) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `name` char(150) NOT NULL,
+  `phone` int(12) NOT NULL,
+  `number_ktp` int(8) NOT NULL,
+  `password` int(16) NOT NULL,
+  `role_user` char(8) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
