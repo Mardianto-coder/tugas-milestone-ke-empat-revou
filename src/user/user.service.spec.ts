@@ -1,6 +1,7 @@
 import { UserService } from './user.service';
 import { UserRepository } from './user.repository';
 import { CreateUserDto } from './dto/req/create.user.dto';
+import { RoleUser } from './entities/user.entities'; // <-- Add this import
 
 describe('UserService', () => {
   let service: UserService;
@@ -18,7 +19,7 @@ describe('UserService', () => {
       phone: '081234567890',
       number_ktp: '1234567890123456',
       password: 'password',
-      role_user: 'ADMIN',
+      role_user: RoleUser.ADMIN, // <-- Use enum value
     };
     const user = service.create(dto);
     expect(user.email).toBe(dto.email);
@@ -35,7 +36,7 @@ describe('UserService', () => {
       phone: '081234567891234',
       number_ktp: '1234567890123457',
       password: 'password2',
-      role_user: 'CUSTOMER',
+      role_user: RoleUser.CUSTOMER, // <-- Use enum value
     };
     const user = service.create(dto);
     expect(service.findOne(user.id)).toEqual(user);
